@@ -1,0 +1,53 @@
+{% extends 'layout.html.twig' %}
+{% block body %}
+    <div class="col-lg-10 offset-lg-2 mt-4 fond pb-4 pt-3 px-5">
+        <h4 class="mb-3 p-2">
+            <i class="fa-brands fa-product-hunt mr-2"></i>
+            {{ "Détails Produit"|trans }}
+        </h4>
+        <hr class=" mb-5">
+    <table class="table table-success-light table-bordered table-hover table-striped w-100">
+        <tbody>
+            <tr>
+                <th>Reference</th>
+                <td>{{ produit.reference }}</td>
+            </tr>
+            <tr>
+                <th>Designation</th>
+                <td>{{ produit.designation }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ produit.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ produit.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ produit.prix }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ produit.description }}</td>
+            </tr>
+            <tr>
+                <th>Fabricant</th>
+                <td>{{ produit.fabricant }}</td>
+            </tr>
+            <tr>
+                <th>Tva</th>
+                <td>{{ produit.tva ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <div class="col-md-3 offset-md-3 pt-3 fond-btn">
+            <div class="text-center">
+                <a href="{{ path('app_produit_index') }}" class="btn btn-shadow btn-success mb-3">Retour</a>
+            </div>
+        </div>
+</div>
+
+{% endblock %}

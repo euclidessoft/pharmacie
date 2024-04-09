@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %}
+{% block body %}
+<div class="col-lg-8 offset-lg-2 mt-4 fond pb-4 pt-3 px-5">
+    <h4 class="mb-3 p-2">
+        <i class="fa-brands fa-product-hunt mr-2"></i>
+        {{ "Détails Client"|trans }}
+    </h4>
+    <hr class=" mb-5">
+    <table class="table table-success-light table-bordered table-hover table-striped w-100">
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ client.nom }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ client.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ client.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ client.Email }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ client.prenom }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="col-md-3 offset-md-3 pt-3 fond-btn">
+        <div class="text-center">
+            <a href="{{ path('app_client_index') }}" class="btn btn-shadow btn-success mb-3">Retour</a>
+        </div>
+    </div>
+</div>>
+{% endblock %}
