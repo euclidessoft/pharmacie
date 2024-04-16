@@ -1,0 +1,60 @@
+{% extends 'layout.html.twig' %}
+{% block body %}
+    <div class="container-fluid mt-3 fond">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="mb-3 text-bold">
+                    <i class="fa-brands fa-product-hunt mr-2"></i>
+                    {{ "Liste des fournisseurs"|trans }}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <a href="{{ path('app_fournisseur_new') }}" class="btn btn-primary float-end"><i class="fa fa-plus"></i>
+                    Nouveau Fournisseur</a>
+            </div>
+        </div>
+        <hr>
+
+        <table id="liste" class="table table-success-light table-bordered table-hover table-striped text-center">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Telephone</th>
+                <th>Email</th>
+                <th>Pays</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for fournisseur in fournisseurs %}
+                <tr>
+                    <td>{{ fournisseur.id }}</td>
+                    <td>{{ fournisseur.nom }}</td>
+                    <td>{{ fournisseur.adresse }}</td>
+                    <td>{{ fournisseur.telephone }}</td>
+                    <td>{{ fournisseur.email }}</td>
+                    <td>{{ fournisseur.pays }}</td>
+                    <td class="text-nowrap">
+                        <a class="btn btn-success" title="{{ 'Voir'|trans }}" href="{{ path('app_fournisseur_show', {'id': fournisseur.id}) }}">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a class="btn btn-primary" title="{{ 'Modifier'|trans }}" href="{{ path('app_fournisseur_edit', {'id': fournisseur.id}) }}">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        {{ include('fournisseur/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{{ path('app_fournisseur_new') }}">Create new</a>
+{% endblock %}

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,22 +23,10 @@ class Produit
     private ?string $designation = null;
 
     #[ORM\Column]
-    private ?int $telephone = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $adresse = null;
-
-    #[ORM\Column]
     private ?int $prix = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $fabricant = null;
-
-
-    private ?int $quantite = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $lot = null;
@@ -49,21 +39,35 @@ class Produit
 
     #[ORM\Column]
     private ?int $stock = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $creation = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $mincommande = null;
+//
+//    #[ORM\Column(type: Types::DATE_MUTABLE)]
+//    private ?\DateTimeInterface $creation = null;
 
     #[ORM\Column]
     private ?bool $tva = null;
 
+    /**
+     * @var Collection<int, Fournisseur>
+     */
+    #[ORM\ManyToMany(targetEntity: Fournisseur::class, inversedBy: 'produits')]
+    private Collection $Fournisseur;
+
+    #[ORM\Column]
+    private ?int $quantite = null;
+
+    /**
+     * @var Collection<int, Detailcommande>
+     */
+    #[ORM\OneToMany(targetEntity: Detailcommande::class, mappedBy: 'relation')]
+    private Collection $detailcommandes;
+
     public function __construct()
     {
-        $this->creation = new \DateTime();
+
         $this->stock = 0;
         $this->tva = false;
+        $this->Fournisseur = new ArrayCollection();
+        $this->detailcommandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,30 +99,6 @@ class Produit
         return $this;
     }
 
-    public function getTelephone(): ?int
-    {
-        return $this->telephone;
-    }
-
-    public function setTelephone(int $telephone): static
-    {
-        $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    public function getAdresse(): ?string
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(string $adresse): static
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
     public function getPrix(): ?int
     {
         return $this->prix;
@@ -139,18 +119,6 @@ class Produit
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getFabricant(): ?string
-    {
-        return $this->fabricant;
-    }
-
-    public function setFabricant(string $fabricant): static
-    {
-        $this->fabricant = $fabricant;
 
         return $this;
     }
@@ -203,30 +171,18 @@ class Produit
         return $this;
     }
 
-    public function getCreation(): ?\DateTimeInterface
-    {
-        return $this->creation;
-    }
+//    public function getCreation(): ?\DateTimeInterface
+//    {
+//        return $this->creation;
+//    }
+//
+//    public function setCreation(\DateTimeInterface $creation): static
+//    {
+//        $this->creation = $creation;
+//
+//        return $this;
+//    }
 
-    public function setCreation(\DateTimeInterface $creation): static
-    {
-        $this->creation = $creation;
-
-        return $this;
-    }
-
-
-    public function getMincommande(): ?int
-    {
-        return $this->mincommande;
-    }
-
-    public function setMincommande(int $mincommande): static
-    {
-        $this->mincommande = $mincommande;
-
-        return $this;
-    }
 
     public function isTva(): ?bool
     {
@@ -236,6 +192,72 @@ class Produit
     public function setTva(bool $tva): static
     {
         $this->tva = $tva;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fournisseur>
+     */
+    public function getFournisseur(): Collection
+    {
+        return $this->Fournisseur;
+    }
+
+    public function addFournisseur(Fournisseur $fournisseur): static
+    {
+        if (!$this->Fournisseur->contains($fournisseur)) {
+            $this->Fournisseur->add($fournisseur);
+        }
+
+        return $this;
+    }
+
+    public function removeFournisseur(Fournisseur $fournisseur): static
+    {
+        $this->Fournisseur->removeElement($fournisseur);
+
+        return $this;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(int $quantite): static
+    {
+        $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Detailcommande>
+     */
+    public function getDetailcommandes(): Collection
+    {
+        return $this->detailcommandes;
+    }
+
+    public function addDetailcommande(Detailcommande $detailcommande): static
+    {
+        if (!$this->detailcommandes->contains($detailcommande)) {
+            $this->detailcommandes->add($detailcommande);
+            $detailcommande->setRelation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDetailcommande(Detailcommande $detailcommande): static
+    {
+        if ($this->detailcommandes->removeElement($detailcommande)) {
+            // set the owning side to null (unless already changed)
+            if ($detailcommande->getRelation() === $this) {
+                $detailcommande->setRelation(null);
+            }
+        }
 
         return $this;
     }

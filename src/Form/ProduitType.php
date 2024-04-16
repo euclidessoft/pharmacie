@@ -14,11 +14,8 @@ class ProduitType extends AbstractType
         $builder
             ->add('reference')
             ->add('designation')
-            ->add('telephone')
-            ->add('adresse')
             ->add('prix')
             ->add('description')
-            ->add('fabricant')
 //            ->add('quantite')
 //            ->add('lot')
 //            ->add('peremption', null, [

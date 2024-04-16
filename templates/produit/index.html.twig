@@ -20,11 +20,8 @@
             <tr>
                 <th>{{ 'Code'|trans }}</th>
                 <th class="text-start">{{ 'Designation'|trans }}</th>
-                <th>{{ 'Téléphone'|trans }}</th>
-                <th class="text-start">{{ 'Adresse'|trans }}</th>
                 <th>{{ 'Prix'|trans }}</th>
                 <th>{{ 'Description'|trans }}</th>
-                <th>{{ 'Fabricant'|trans }}</th>
                 <th>{{ 'Tva'|trans }}</th>
                 <th>{{ 'Actions'|trans }}</th>
             </tr>
@@ -34,11 +31,9 @@
                 <tr>
                     <td>{{ produit.reference }}</td>
                     <td class="text-start">{{ produit.designation }}</td>
-                    <td>{{ produit.telephone }}</td>
-                    <td class="text-start">{{ produit.adresse }}</td>
+{#                    <td class="text-start">{{ produit.fournisseur[0].adressez }}</td>#}
                     <td>{{ produit.prix }}</td>
                     <td>{{ produit.description }}</td>
-                    <td>{{ produit.fabricant }}</td>
                     <td>{{ produit.tva ? 'Yes' : 'No' }}</td>
                     <td class="text-nowrap">
                         <a class="btn btn-success" title="{{ 'Voir'|trans }}" href="{{ path('app_produit_show', {'id': produit.id}) }}">

@@ -17,14 +17,6 @@
                 <td>{{ produit.designation }}</td>
             </tr>
             <tr>
-                <th>Telephone</th>
-                <td>{{ produit.telephone }}</td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ produit.adresse }}</td>
-            </tr>
-            <tr>
                 <th>Prix</th>
                 <td>{{ produit.prix }}</td>
             </tr>
@@ -33,13 +25,39 @@
                 <td>{{ produit.description }}</td>
             </tr>
             <tr>
-                <th>Fabricant</th>
-                <td>{{ produit.fabricant }}</td>
+                <th>Quantité</th>
+                <td>{{ produit.quantite }}</td>
             </tr>
             <tr>
                 <th>Tva</th>
                 <td>{{ produit.tva ? 'Yes' : 'No' }}</td>
             </tr>
+            {% for fournis in produit.fournisseur %}
+                <tr>
+                    <th>Nom fournisseur</th>
+                    <td>{{ fournis.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Telephone fournisseur</th>
+                    <td>{{ fournis.telephone }}</td>
+                </tr>
+                <tr>
+                    <th>Email fournisseur</th>
+                    <td>{{ fournis.email }}</td>
+                </tr>
+                <tr>
+                    <th>Adresse fournisseur</th>
+                    <td>{{ fournis.adresse }}</td>
+                </tr>
+                <tr>
+                    <th>Pays fournisseur</th>
+                    <td>{{ fournis.pays }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">Aucun fournisseur</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
