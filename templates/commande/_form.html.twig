@@ -1,0 +1,14 @@
+{{ form_start(form, {'attr' : { 'id' : 'form'}}) }}
+
+<div class="col-lg-10 offset-lg-2 mt-4 fond pb-4 pt-3 px-5">
+    <h4 class="mb-3 p-2">
+        <i class="fa-brands fa-product-hunt mr-2"></i>
+        {{ 'Nouvelle commande'|trans }}
+    </h4>
+    <hr class=" mb-5">
+    <div class="row">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+    </div>
+    {{ form_end(form) }}
+</div>

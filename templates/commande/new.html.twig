@@ -1,0 +1,68 @@
+{% extends 'layout.html.twig'%}
+{% block body %}
+
+    {{ include('commande/_form.html.twig') }}
+
+{#    <div class="row">#}
+{#        <div class="col-lg-6">#}
+
+{#            <h4 class="mb-3 p-2">#}
+{#                <i class="mr-2"></i>#}
+{#                {{ 'Liste des produits'|trans }}#}
+{#            </h4>#}
+{#            <table class="table table-success-light table-bordered table-hover table-striped text-center w-50">#}
+{#                <thead>#}
+{#                <tr>#}
+{#                    <th>Id</th>#}
+{#                    <th>Nom</th>#}
+{#                    <th>Telephone</th>#}
+{#                    <th>Adresse</th>#}
+{#                </tr>#}
+{#                </thead>#}
+{#                <tbody>#}
+{#                #}{#            {% for client in clients %}#}
+{#                <tr>#}
+{#                    <td> 001</td>#}
+{#                    <td> Para</td>#}
+{#                    <td> 777215233</td>#}
+{#                    <td> bhoyemad11@gmail.com</td>#}
+{#                </tr>#}
+{#                <tr>#}
+{#                    <td colspan="7">no records found</td>#}
+{#                </tr>#}
+{#                </tbody>#}
+{#            </table>#}
+{#        </div>#}
+{#        <div class="col-lg-6">#}
+
+{#            <h4 class="mb-3 p-2">#}
+{#                <i class="mr-2"></i>#}
+{#                {{ 'Produit a commander'|trans }}#}
+{#            </h4>#}
+{#            <table class="table table-success-light table-bordered table-hover table-striped text-center w-50">#}
+{#                <thead>#}
+{#                <tr>#}
+{#                    <th>Id</th>#}
+{#                    <th>Nom</th>#}
+{#                    <th>Telephone</th>#}
+{#                    <th>Adresse</th>#}
+{#                </tr>#}
+{#                </thead>#}
+{#                <tbody>#}
+{#                #}{#            {% for client in clients %}#}
+{#                <tr>#}
+{#                    <td> 001</td>#}
+{#                    <td> Para</td>#}
+{#                    <td> 777215233</td>#}
+{#                    <td> bhoyemad11@gmail.com</td>#}
+{#                </tr>#}
+{#                <tr>#}
+{#                    <td colspan="7">no records found</td>#}
+{#                </tr>#}
+{#                </tbody>#}
+{#            </table>#}
+
+{#            <button class="btn btn-success btn-end">Valider</button>#}
+{#        </div>#}
+{#    </div>#}
+{% endblock %}
