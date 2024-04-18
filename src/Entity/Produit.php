@@ -52,9 +52,6 @@ class Produit
     #[ORM\ManyToMany(targetEntity: Fournisseur::class, inversedBy: 'produits')]
     private Collection $Fournisseur;
 
-    #[ORM\Column]
-    private ?int $quantite = null;
-
     /**
      * @var Collection<int, Detailcommande>
      */
@@ -63,7 +60,6 @@ class Produit
 
     public function __construct()
     {
-
         $this->stock = 0;
         $this->tva = false;
         $this->Fournisseur = new ArrayCollection();
@@ -220,17 +216,6 @@ class Produit
         return $this;
     }
 
-    public function getQuantite(): ?int
-    {
-        return $this->quantite;
-    }
-
-    public function setQuantite(int $quantite): static
-    {
-        $this->quantite = $quantite;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Detailcommande>
