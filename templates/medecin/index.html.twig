@@ -36,9 +36,14 @@
                 <td>{{ medecin.email }}</td>
                 <td>{{ medecin.adresse }}</td>
                 <td>{{ medecin.telephone }}</td>
-                <td>
-                    <a href="{{ path('app_medecin_show', {'id': medecin.id}) }}">show</a>
-                    <a href="{{ path('app_medecin_edit', {'id': medecin.id}) }}">edit</a>
+                <td class="text-nowrap">
+                    <a class="btn btn-success" title="{{ 'Voir'|trans }}" href="{{ path('app_medecin_show', {'id': medecin.id}) }}">
+                        <i class="fa fa-eye"></i>
+                    </a>
+                    <a class="btn btn-primary" title="{{ 'Modifier'|trans }}" href="{{ path('app_medecin_edit', {'id': medecin.id}) }}">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    {{ include('medecin/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
