@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<title>New Specialite</title>
+
+{% block body %}
+    <h1>Create new Specialite</h1>
+
+    {{ include('specialite/_form.html.twig') }}
+
+    <a href="{{ path('app_specialite_index') }}">back to list</a>
+{% endblock %}
