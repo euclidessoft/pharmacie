@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-
-<title>Edit Mutuelles</title>
-
+{% extends 'layout.html.twig' %}
 {% block body %}
-    <h1>Edit Mutuelles</h1>
-
     {{ include('mutuelles/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_mutuelles_index') }}">back to list</a>
-
-    {{ include('mutuelles/_delete_form.html.twig') }}
 {% endblock %}

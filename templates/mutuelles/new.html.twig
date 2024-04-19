@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-
-<title>New Mutuelles</title>
-
+{% extends 'layout.html.twig' %}
 {% block body %}
-    <h1>Create new Mutuelles</h1>
 
     {{ include('mutuelles/_form.html.twig') }}
 
-    <a href="{{ path('app_mutuelles_index') }}">back to list</a>
 {% endblock %}

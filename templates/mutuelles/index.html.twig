@@ -1,41 +1,59 @@
-<!DOCTYPE html>
-
-<title>Mutuelles index</title>
-
+{% extends 'layout.html.twig' %}
 {% block body %}
-    <h1>Mutuelles index</h1>
 
-    <table class="table">
-        <thead>
+    <div class="container-fluid mt-3 fond">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="mb-3 text-bold">
+                    <i class="fa-brands fa-product-hunt mr-2"></i>
+                    {{ "Liste des mutuelles"|trans }}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <a href="{{ path('app_mutuelles_new') }}" class="btn btn-primary float-end"><i class="fa fa-plus"></i>
+                    Nouvelle mutuelles</a>
+            </div>
+        </div>
+        <hr>
+
+        <table id="liste" class="table table-success-light table-bordered table-hover table-striped text-center">
+            <thead>
+            <thead>
             <tr>
                 <th>Id</th>
                 <th>Nom</th>
                 <th>Adresse</th>
                 <th>Telephone</th>
                 <th>Montant</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for mutuelle in mutuelles %}
-            <tr>
-                <td>{{ mutuelle.id }}</td>
-                <td>{{ mutuelle.nom }}</td>
-                <td>{{ mutuelle.adresse }}</td>
-                <td>{{ mutuelle.telephone }}</td>
-                <td>{{ mutuelle.montant }}</td>
-                <td>
-                    <a href="{{ path('app_mutuelles_show', {'id': mutuelle.id}) }}">show</a>
-                    <a href="{{ path('app_mutuelles_edit', {'id': mutuelle.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_mutuelles_new') }}">Create new</a>
+            </thead>
+            <tbody>
+            {% for mutuelle in mutuelles %}
+                <tr>
+                    <td>{{ mutuelle.id }}</td>
+                    <td>{{ mutuelle.nom }}</td>
+                    <td>{{ mutuelle.adresse }}</td>
+                    <td>{{ mutuelle.telephone }}</td>
+                    <td>{{ mutuelle.montant }}</td>
+                    <td class="text-nowrap">
+                        <a class="btn btn-success" title="{{ 'Voir'|trans }}"
+                           href="{{ path('app_mutuelles_show', {'id': mutuelle.id}) }}">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a class="btn btn-primary" title="{{ 'Modifier'|trans }}"
+                           href="{{ path('app_mutuelles_edit', {'id': mutuelle.id}) }}">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        {{ include('mutuelles/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

@@ -1,57 +1,62 @@
 {% extends 'layout.html.twig' %}
 {% block body %}
 
-<div class="container-fluid mt-3 fond">
-    <div class="row">
-        <div class="col-md-6">
-            <h3 class="mb-3 text-bold">
-                <i class="fa-brands fa-product-hunt mr-2"></i>
-                {{ "Liste des médecin"|trans }}
-            </h3>
+    <div class="container-fluid mt-3 fond">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="mb-3 text-bold">
+                    <i class="fa-brands fa-product-hunt mr-2"></i>
+                    {{ "Liste des médecin"|trans }}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <a href="{{ path('app_medecin_new') }}" class="btn btn-primary float-end"><i class="fa fa-plus"></i>
+                    Nouveau médecin</a>
+            </div>
         </div>
-        <div class="col-md-6">
-            <a href="{{ path('app_medecin_new') }}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Nouveau médecin</a>
-        </div>
-    </div>
-    <hr>
+        <hr>
 
-    <table id="liste" class="table table-success-light table-bordered table-hover table-striped text-center">
-        <thead>
+        <table id="liste" class="table table-success-light table-bordered table-hover table-striped text-center">
+            <thead>
             <tr>
                 <th>Id</th>
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>Email</th>
+                <th>Téléphone</th>
                 <th>Adresse</th>
-                <th>Telephone</th>
-                <th>actions</th>
+                <th>Spécialité</th>
+                <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for medecin in medecins %}
-            <tr>
-                <td>{{ medecin.id }}</td>
-                <td>{{ medecin.nom }}</td>
-                <td>{{ medecin.prenom }}</td>
-                <td>{{ medecin.email }}</td>
-                <td>{{ medecin.adresse }}</td>
-                <td>{{ medecin.telephone }}</td>
-                <td class="text-nowrap">
-                    <a class="btn btn-success" title="{{ 'Voir'|trans }}" href="{{ path('app_medecin_show', {'id': medecin.id}) }}">
-                        <i class="fa fa-eye"></i>
-                    </a>
-                    <a class="btn btn-primary" title="{{ 'Modifier'|trans }}" href="{{ path('app_medecin_edit', {'id': medecin.id}) }}">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    {{ include('medecin/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+            {% for medecin in medecins %}
+                <tr>
+                    <td>{{ medecin.id }}</td>
+                    <td>{{ medecin.nom }}</td>
+                    <td>{{ medecin.prenom }}</td>
+                    <td>{{ medecin.email }}</td>
+                    <td>{{ medecin.telephone }}</td>
+                    <td>{{ medecin.adresse }}</td>
+                    <td>{{ medecin.specialite.nom }}</td>
+                    <td class="text-nowrap">
+                        <a class="btn btn-success" title="{{ 'Voir'|trans }}"
+                           href="{{ path('app_medecin_show', {'id': medecin.id}) }}">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a class="btn btn-primary" title="{{ 'Modifier'|trans }}"
+                           href="{{ path('app_medecin_edit', {'id': medecin.id}) }}">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        {{ include('medecin/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
