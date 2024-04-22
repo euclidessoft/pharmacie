@@ -3,7 +3,7 @@
     <div class="container fond">
         <div class="col-lg-7 fond-1">
             {{ form_start(form) }}
-            {{ form_widget(form) }}
+            {{ form_row(form.fournisseur,{ 'attr': {'onchange': 'produits()'}}) }}
             {{ form_end(form) }}
         </div>
         <div class="row">
@@ -20,30 +20,9 @@
                         <th>{{ 'Action'|trans }}</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td> 777215233</td>
-                        <td> 777215233</td>
-                        <td> bhoyemad11@gmail.com</td>
-                    </tr>
-                    <tr>
-                        <td> 777215233</td>
-                        <td> 777215233</td>
-                        <td> bhoyemad11@gmail.com</td>
-                    </tr>
-                    <tr>
-                        <td> 777215233</td>
-                        <td> 777215233</td>
-                        <td> bhoyemad11@gmail.com</td>
-                    </tr>
-                    <tr>
-                        <td> 777215233</td>
-                        <td> 777215233</td>
-                        <td> bhoyemad11@gmail.com</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3"> no records found</td>
-                    </tr>
+                    <tbody id="produits">
+
+
                     </tbody>
                 </table>
             </div>

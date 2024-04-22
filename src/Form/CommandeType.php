@@ -18,7 +18,7 @@ class CommandeType extends AbstractType
 //            ->add('date', null, [
 //                'widget' => 'single_text',
 //            ])
-            ->add('Fournisseur', EntityType::class, [
+            ->add('fournisseur', EntityType::class, [
                 'class' => Fournisseur::class,
                 'choice_label' => function($fournisseur){
                     return $fournisseur->getNom();

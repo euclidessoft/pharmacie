@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Entity\Fournisseur;
 use App\Form\CommandeType;
 use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,6 +43,25 @@ class CommandeController extends AbstractController
         ]);
     }
 
+    #[Route('/commande_fournisseur', name: 'commande_produis', methods: ['GET', 'POST'])]
+    public function commande_produits(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $varfournisseur = $request->get('fournisseur');
+        $fournisseur = $entityManager->getRepository(Fournisseur::class)->find($varfournisseur);
+        $res = [];
+        foreach ($fournisseur->getProduits() as $produit) {
+            $pro['id'] = $produit->getId();
+            $pro['reference'] = $produit->getReference();
+            $pro['designation'] = $produit->getDesignation();
+            $res[] = $pro;
+        }
+        $response = new Response();
+        $response->headers->set('content-type', 'application/json');
+        $re = json_encode($res);
+        $response->setContent($re);
+        return $response;
+    }
+
     #[Route('/{id}', name: 'app_commande_show', methods: ['GET'])]
     public function show(Commande $commande): Response
     {
@@ -71,7 +91,7 @@ class CommandeController extends AbstractController
     #[Route('/{id}', name: 'app_commande_delete', methods: ['POST'])]
     public function delete(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$commande->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $commande->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($commande);
             $entityManager->flush();
         }

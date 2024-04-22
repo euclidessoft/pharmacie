@@ -562,7 +562,7 @@
     $(document).ready(function () {
         var table = $('#liste').DataTable({
             responsive: true,
-            "pageLength": 100,
+            pageLength: 100,
             buttons: [{
                 extend: 'excelHtml5',
                 text: '<i class="fa fa-file-excel fa-lg"></i> Exporter vers Excel',
@@ -602,7 +602,36 @@
         $("#"+id).html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
         $('#form').submit();
     }
+    function produits(){
+        $('#produits').html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
+        var fournisseur = $('#commande_fournisseur option:selected').val();
+        $.ajax({
+            type: "POST",
+            url: "{{ path('commande_produis') }}",
+            data: { fournisseur: fournisseur},
+            success: function (data) {
+                if (data.length != 0) {
+
+                    for (var i=0; i < data.length; i++) {
+                        if(i == 0)
+                            $('#produits').html("<tr><td>"+data[i]['reference']+"</td><td>"+data[i]['designation']+"</td></tr>");
+                        else
+                            $('#produits').append("<tr><td>"+data[i]['reference']+"</td><td>"+data[i]['designation']+"</td></tr>");
+
+                    }
+
+                }
+                else {
+                    $('#produits').html("<tr><td colspan='3'>Aucun produit</td></tr>");
+                }
+            },
+            error: function () {
+                alert('{{ "La requête n'a pas abouti"|trans }}');
+            }
+        });
+    }
 </script>
+
 </body>
 </html>
 
