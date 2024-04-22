@@ -59,6 +59,7 @@ class ClientController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('notice', 'Client ajouté avec succés');
             return $this->redirectToRoute('app_client_index', [], Response::HTTP_SEE_OTHER);
         }
 
