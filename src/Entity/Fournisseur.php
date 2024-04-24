@@ -31,14 +31,20 @@ class Fournisseur
     private ?string $pays = null;
 
     /**
+     * @var Collection<int, Produit>
+     */
+    #[ORM\ManyToMany(targetEntity: Produit::class, mappedBy: 'Fournisseur')]
+    private Collection $produits;
+
+    /**
      * @var Collection<int, Commande>
      */
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'Fournisseur')]
     private Collection $commandes;
 
-
     public function __construct()
     {
+        $this->produits = new ArrayCollection();
         $this->commandes = new ArrayCollection();
     }
 
@@ -107,6 +113,32 @@ class Fournisseur
         return $this;
     }
 
+    /**
+     * @return Collection<int, Produit>
+     */
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
+    public function addProduit(Produit $produit): static
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits->add($produit);
+            $produit->addFournisseur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(Produit $produit): static
+    {
+        if ($this->produits->removeElement($produit)) {
+            $produit->removeFournisseur($this);
+        }
+
+        return $this;
+    }
 
     /**
      * @return Collection<int, Commande>
@@ -133,33 +165,6 @@ class Fournisseur
             if ($commande->getFournisseur() === $this) {
                 $commande->setFournisseur(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Produit>
-     */
-    public function getProduits(): Collection
-    {
-        return $this->produits;
-    }
-
-    public function addProduit(Produit $produit): static
-    {
-        if (!$this->produits->contains($produit)) {
-            $this->produits->add($produit);
-            $produit->addRelation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduit(Produit $produit): static
-    {
-        if ($this->produits->removeElement($produit)) {
-            $produit->removeRelation($this);
         }
 
         return $this;

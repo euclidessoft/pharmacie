@@ -6,7 +6,6 @@ use App\Entity\Produit;
 use App\Entity\Fournisseur;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,6 +18,7 @@ class ProduitType extends AbstractType
             ->add('designation')
             ->add('prix')
             ->add('description')
+
 //            ->add('quantite')
 //            ->add('lot')
 //            ->add('peremption', null, [
