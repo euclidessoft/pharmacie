@@ -68,7 +68,8 @@
                                     <div class="item p-3">
                                         <div class="row gx-2 justify-content-between align-items-center">
                                             <div class="col-auto">
-                                                <img class="profile-image" src="assets/images/profiles/profile-1.png"
+                                                <img class="profile-image"
+                                                     src="{{ asset('assets/images/profiles/profile-1.png') }}"
                                                      alt="">
                                             </div><!--//col-->
                                             <div class="col">
@@ -133,7 +134,8 @@
                                     <div class="item p-3">
                                         <div class="row gx-2 justify-content-between align-items-center">
                                             <div class="col-auto">
-                                                <img class="profile-image" src="assets/images/profiles/profile-2.png"
+                                                <img class="profile-image"
+                                                     src="{{ asset('assets/images/profiles/profile-2.png') }}"
                                                      alt="">
                                             </div><!--//col-->
                                             <div class="col">
@@ -168,7 +170,8 @@
 
                         <div class="app-utility-item app-user-dropdown dropdown">
                             <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#"
-                               role="button" aria-expanded="false"><img src="assets/images/user.png" alt="user profile"></a>
+                               role="button" aria-expanded="false"><img src="{{ asset('assets/images/user.png') }}"
+                                                                        alt="user profile"></a>
                             <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
                                 <li><a class="dropdown-item" href="account.html">Account</a></li>
                                 <li><a class="dropdown-item" href="settings.html">Settings</a></li>
@@ -197,7 +200,7 @@
                 <ul class="app-menu list-unstyled accordion" id="menu-accordion">
                     <li class="nav-item">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link active" href="index.html">
+                        <a class="nav-link" href="index.html">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house-door"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -213,11 +216,13 @@
                     <!--//nav-item-->
                     <li class="nav-item has-submenu">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse"
+                        <a class="nav-link submenu-toggle {% block vente %} {% endblock %}" href="#"
+                           data-bs-toggle="collapse"
                            data-bs-target="#submenu-2" aria-expanded="false" aria-controls="submenu-1">
 						        <span class="nav-icon">
 						        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-						        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
+						        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-cash" viewBox="0 0 16 16">
   <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
   <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2z"/>
 </svg>
@@ -250,7 +255,7 @@
 
                     <li class="nav-item">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link" href="{{ path('app_produit_index') }}">
+                        <a class="nav-link {% block produit %} {% endblock %}" href="{{ path('app_produit_index') }}">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -307,7 +312,7 @@
                     <!--//nav-item-->
                     <li class="nav-item has-submenu">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse"
+                        <a class="nav-link submenu-toggle {% block commandes %}{% endblock %}" href="#" data-bs-toggle="collapse"
                            data-bs-target="#submenu-3" aria-expanded="false" aria-controls="submenu-1">
 						        <span class="nav-icon">
 						        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
@@ -330,13 +335,14 @@
                         <div id="submenu-3" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
                             <ul class="submenu-list list-unstyled">
                                 <li class="submenu-item">
-                                    <a class="submenu-link" href="{{ path('app_commande_new') }}">Nouvelle commandes</a>
+                                    <a class="submenu-link {% block new_commandes %}{% endblock %}" href="{{ path('app_commande_new') }}">Nouvelle commandes</a>
                                 </li>
                                 <li class="submenu-item">
-                                    <a class="submenu-link" href="{{ path('app_commande_index') }}">Historique des commandes</a>
+                                    <a class="submenu-link {% block all_commandes %}{% endblock %}" href="{{ path('app_commande_index') }}">Historique des
+                                        commandes</a>
                                 </li>
                                 <li class="submenu-item">
-                                    <a class="submenu-link" href="account.html">Liste des commandes</a>
+                                    <a class="submenu-link {% block allscommandes %}{% endblock %}" href="account.html">Liste des commandes</a>
                                 </li>
                             </ul>
                         </div>
@@ -344,7 +350,7 @@
                     <!--//nav-item-->
                     <li class="nav-item">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link" href="{{ path('app_client_index') }}">
+                        <a class="nav-link {% block client %}{% endblock %}" href="{{ path('app_client_index') }}">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -364,7 +370,7 @@
                     <!--//nav-item-->
                     <li class="nav-item">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link" href="{{ path('app_medecin_index') }}">
+                        <a class="nav-link {% block medecin %}{% endblock %}" href="{{ path('app_medecin_index') }}">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -382,9 +388,9 @@
                         <!--//nav-link-->
                     </li>
                     <!--//nav-item-->
-                        <li class="nav-item">
+                    <li class="nav-item">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link" href="{{ path('app_specialite_index') }}">
+                        <a class="nav-link {% block specialite %}{% endblock %}" href="{{ path('app_specialite_index') }}">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -403,7 +409,7 @@
                     </li>                    <!--//nav-item-->
                     <li class="nav-item">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link" href="{{ path('app_mutuelles_index') }}">
+                        <a class="nav-link {% block mutuelle %}{% endblock %}" href="{{ path('app_mutuelles_index') }}">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -424,7 +430,8 @@
                     <!--//nav-item-->
                     <li class="nav-item">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link" href="{{ path('app_fournisseur_index') }}">
+                        <a class="nav-link {% block fournisseur %}{% endblock %}"
+                           href="{{ path('app_fournisseur_index') }}">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -444,7 +451,7 @@
 
                     <li class="nav-item">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link" href="orders.html">
+                        <a class="nav-link {% block avoir %}{% endblock %}" href="orders.html">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -557,7 +564,6 @@
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
 
 
-
 <script>
     $(document).ready(function () {
         var table = $('#liste').DataTable({
@@ -595,33 +601,35 @@
 
         });
     });
+
     function load(id) {
-        $("#"+id).html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
+        $("#" + id).html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
     }
+
     function load_btn(id) {
-        $("#"+id).html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
+        $("#" + id).html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
         $('#form').submit();
     }
-    function produits(){
+
+    function produits() {
         $('#produits').html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
         var fournisseur = $('#commande_fournisseur option:selected').val();
         $.ajax({
             type: "POST",
             url: "{{ path('commande_produis') }}",
-            data: { fournisseur: fournisseur},
+            data: {fournisseur: fournisseur},
             success: function (data) {
                 if (data.length != 0) {
 
-                    for (var i=0; i < data.length; i++) {
-                        if(i == 0)
-                            $('#produits').html("<tr><td>"+data[i]['reference']+"</td><td>"+data[i]['designation']+"</td><td><button id='"+data[i]['id']+"' class='btn btn-success' onclick='ajouter("+data[i]['id']+")'><i class=\"fa fa-plus\"></i></button></td></tr>");
+                    for (var i = 0; i < data.length; i++) {
+                        if (i == 0)
+                            $('#produits').html("<tr><td>" + data[i]['reference'] + "</td><td>" + data[i]['designation'] + "</td><td><button id='" + data[i]['id'] + "' class='btn btn-success' onclick='ajouter(" + data[i]['id'] + ")'><i class=\"fa fa-plus\"></i></button></td></tr>");
                         else
-                            $('#produits').append("<tr><td>"+data[i]['reference']+"</td><td>"+data[i]['designation']+"</td><td><button class='btn btn-success'><i class=\"fa fa-plus\"></i></button></td></tr>");
+                            $('#produits').append("<tr><td>" + data[i]['reference'] + "</td><td>" + data[i]['designation'] + "</td><td><button class='btn btn-success'><i class=\"fa fa-plus\"></i></button></td></tr>");
 
                     }
 
-                }
-                else {
+                } else {
                     $('#produits').html("<tr><td colspan='3'>Aucun produit</td></tr>");
                 }
             },
@@ -630,9 +638,10 @@
             }
         });
     }
+
     /*****Fnc ajout produit*******/
     function ajouter(id) {
-        $("#"+id).html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
+        $("#" + id).html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
     }
 </script>
 
