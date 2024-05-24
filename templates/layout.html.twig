@@ -533,7 +533,7 @@
         <div class="container text-center py-3">
             <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
             <small class="copyright">Designed by
-                <a class="app-link" href="https://https://euclideservices.com/" target="_blank">Euclides</a></small>
+                <a class="app-link" href="https://euclideservices.com/" target="_blank">Euclides</a></small>
 
         </div>
     </footer><!--//app-footer-->
@@ -594,6 +594,7 @@
             }
 
         });
+       // produits();
     });
     function load(id) {
         $("#"+id).html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
@@ -603,36 +604,207 @@
         $('#form').submit();
     }
     function produits(){
-        $('#produits').html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
+
         var fournisseur = $('#commande_fournisseur option:selected').val();
-        $.ajax({
-            type: "POST",
-            url: "{{ path('commande_produis') }}",
-            data: { fournisseur: fournisseur},
-            success: function (data) {
-                if (data.length != 0) {
+        if(fournisseur != "") {
+            $('#produits').html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
+            $.ajax({
+                type: "POST",
+                url: "{{ path('commande_produits') }}",
+                data: {fournisseur: fournisseur},
+                success: function (data) {
+                    if (data.length != 0) {
 
-                    for (var i=0; i < data.length; i++) {
-                        if(i == 0)
-                            $('#produits').html("<tr><td>"+data[i]['reference']+"</td><td>"+data[i]['designation']+"</td><td><button id='"+data[i]['id']+"' class='btn btn-success' onclick='ajouter("+data[i]['id']+")'><i class=\"fa fa-plus\"></i></button></td></tr>");
-                        else
-                            $('#produits').append("<tr><td>"+data[i]['reference']+"</td><td>"+data[i]['designation']+"</td><td><button class='btn btn-success'><i class=\"fa fa-plus\"></i></button></td></tr>");
+                        for (var i = 0; i < data.length; i++) {
+                            if (i == 0)
+                                $('#produits').html("<tr><td>" + data[i]['reference'] + "</td><td>" + data[i]['designation'] + "</td><td>" +
+                                    "<!-- Button trigger modal -->\n" +
+                                    "<button id='btn" + data[i]['id'] + "' type=\"button\" class=\"btn btn-success\" data-bs-toggle=\"modal\" data-bs-target='#mod" + data[i]['id'] + "'>\n" +
+                                    "<i class=\"fa fa-plus\"></i>\n" +
+                                    "</button>\n" +
+                                    "\n" +
+                                    "<!-- Modal -->\n" +
+                                    "<div class=\"modal fade\" id='mod" + data[i]['id'] + "' tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n" +
+                                    "  <div class=\"modal-dialog\">\n" +
+                                    "    <div class=\"modal-content\">\n" +
+                                    "      <div class=\"modal-header\">\n" +
+                                    "        <h6 class=\"modal-title fs-5\" id=\"exampleModalLabel\">" + data[i]['designation'] + "</h6>\n" +
+                                    "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n" +
+                                    "      </div>\n" +
+                                    "      <div class=\"modal-body\">\n" +
+                                    "<input type='number' id='text" + data[i]['id'] + "' class='form-control'>" +
+                                    "      </div>\n" +
+                                    "      <div class=\"modal-footer\">\n" +
+                                    "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\" id='annuler" + data[i]['id'] + "'>Close</button>\n" +
+                                    "        <button type=\"button\"  id='sub" + data[i]['id'] + "' class=\"btn btn-primary\" onclick='ajouter(" + data[i]['id'] + ")'>{{ 'Ajouter'|trans }}</button>\n" +
+                                    "      </div>\n" +
+                                    "    </div>\n" +
+                                    "  </div>\n" +
+                                    "</div></td></tr>");
+                            else
+                                $('#produits').append("<tr><td>" + data[i]['reference'] + "</td><td>" + data[i]['designation'] + "</td><td>" +
+                                    "<!-- Button trigger modal -->\n" +
+                                    "<button id='btn" + data[i]['id'] + "' type=\"button\" class=\"btn btn-success\" data-bs-toggle=\"modal\" data-bs-target='#mod" + data[i]['id'] + "'>\n" +
+                                    "<i class=\"fa fa-plus\"></i>\n" +
+                                    "</button>\n" +
+                                    "\n" +
+                                    "<!-- Modal -->\n" +
+                                    "<div class=\"modal fade\" id='mod" + data[i]['id'] + "' tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n" +
+                                    "  <div class=\"modal-dialog\">\n" +
+                                    "    <div class=\"modal-content\">\n" +
+                                    "      <div class=\"modal-header\">\n" +
+                                    "        <h6 class=\"modal-title fs-5\" id=\"exampleModalLabel\">" + data[i]['designation'] + "</h6>\n" +
+                                    "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n" +
+                                    "      </div>\n" +
+                                    "      <div class=\"modal-body\">\n" +
+                                    "<input type='number' id='text" + data[i]['id'] + "' class='form-control'>" +
+                                    "      </div>\n" +
+                                    "      <div class=\"modal-footer\">\n" +
+                                    "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\" id='annuler" + data[i]['id'] + "'>Close</button>\n" +
+                                    "        <button type=\"button\"  id='sub" + data[i]['id'] + "' class=\"btn btn-primary\" onclick='ajouter(" + data[i]['id'] + ")'>{{ 'Ajouter'|trans }}</button>\n" +
+                                    "      </div>\n" +
+                                    "    </div>\n" +
+                                    "  </div>\n" +
+                                    "</div></td></tr>");
+                        }
 
+                    } else {
+                        $('#produits').html("<tr><td colspan='3'>Aucun produit</td></tr>");
                     }
+                },
+                error: function () {
+                    alert('{{ "La requête n'a pas abouti"|trans }}');
 
                 }
-                else {
-                    $('#produits').html("<tr><td colspan='3'>Aucun produit</td></tr>");
+            });
+        }
+    }
+    /*****Fnc ajout produit*******/
+    function ajouter(produit) {
+
+        var quant = $("#text" + produit);
+        // var peremp = new Date($("#peremp" + produit).val());
+        if(quant.val() != ""){
+            if (quant.val() > 0) {
+                $("#sub"+produit).html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('commande_produit_add') }}",
+                    data: { produit : produit , quantite : quant.val() },
+                    success: function (data) {
+                        if (data['id'] == 'ok') {
+                            $('#commander').append(" <tr id='tr" + produit + "'>\n" +
+                                "                        <td>" + data['ref'] + "</td>\n" +
+                                "                        <td>" + data['designation'] + "</td>\n" +
+                                "                        <td class='text-center'>" + data['quantite'] + "</td>\n" +
+                                "                        <td> <button class='btn btn-danger mr-2 mb-2'\n" +
+                                "                                   title=\"{{ 'Supprimer le produit'|trans}}\" onclick='supprim(" + produit + ")'>\n" +
+                                "                                    <i class='fa fa-trash'></i>\n" +
+                                "                                </button></td></tr>");
+
+                            $("#annuler" + produit).trigger('click');
+                            quant.val("");
+                            $("#sub"+produit).html("{{ 'Ajouter'|trans }}");
+                            $("#btn"+produit).addClass('disabled');
+                            $('#valider').removeClass('disabled');
+                         } else {
+                            $("#annuler" + produit).trigger('click');
+                            quant.val("");
+                            $("#sub"+produit).html("{{ 'Ajouter'|trans }}");
+                            $("#btn"+produit).addClass('disabled');
+                            alert(data['id'])
+                        }
+                    },
+                    error: function () {
+                        alert("{{ 'La requête n’a pas abouti'|trans }}");
+                    }
+                });
+            } else {
+                alert("{{'Veillez bien renseigner la quantité'|trans}}");
+            }
+        }
+        else{
+            $("#sub"+produit).html("{{ 'Ajouter'|trans }}");
+            alert("{{ 'Veillez bien renseigner la quantite'|trans }}");
+        }
+    }
+    function supprim(produit) {
+
+        if (confirm("{{ 'Etes-vous sur de vouloir supprimer?'|trans }}")) {
+            $.ajax({
+                type: "POST",
+                url: "{{ path('commande_produit_delete') }}",
+                data: { produit :produit },
+                success: function (data) {
+                    if (data['id'] == 'ok') {
+                        $("#tr" + produit ).remove();
+                        $('#btn' + produit).removeClass('disabled');
+                        $("#text" + produit).val('');// vider le champ quantite dans modal ajouter
+                        $("#ajouter" + produit).show();// afficher le bouton ajouter
+                        $("#ajouter" + produit).html("<i class=\"fa fa-plus\"></i> {{ 'Ajouter'|trans }}");// afficher le bouton ajouter
+
+
+                        if (data['nb'] == 0) {
+                            $('#valider').addClass('disabled');
+                        }
+                    }
+                },
+                error: function () {
+                    alert("{{ 'La requête n’a pas abouti'|trans }}");
+                }
+            });
+        }
+    }
+    function fournisseur(id) {// selectionner les fournisseur
+        $.ajax({
+            type: "POST",
+            url: "{{ path('commande_produit_fournisseur') }}",
+            data: "prod=" + id,
+            success: function (data) {
+                if (data[0]['id'] == 'ok') {
+
+                    for (var i=0; i < data.length; i++) {
+                        var date = new Date(data[i]['peremption']['date']).toLocaleDateString();
+                        // var dd = date.getDay();
+                        // var mm = date.getMonth();
+                        // var yy = date.getFullYear()
+                        if( i == 0) {
+
+                            $('#numerolot'+id).html(" <tr>\n" +
+                                "                                            <td>"+ data[i]['lot']+"</td>\n" +
+                                "                                            <td>"+ date +"</td>\n" +
+                                "                                            <td>"+ data[i]['quantite']+"</td>\n" +
+                                "                                            <td>" +
+                                "<input type='number' id='"+ Number(data[i]['lot'])+"' class='form-control'/>" +
+                                "</td>\n" +
+                                "                                        </tr>");
+                        }else{
+                            $('#numerolot'+id).append(" <tr>\n" +
+                                "                                            <td>"+ data[i]['lot']+"</td>\n" +
+                                "                                            <td>"+ date +"</td>\n" +
+                                "                                            <td>"+ data[i]['quantite']+"</td>\n" +
+                                "                                            <td>" +
+                                "<input type='number' id='"+ Number(data[i]['lot'])+"' class='form-control'/>" +
+                                "</td>\n" +
+                                "                                        </tr>");
+                        }
+                    }
+                    // ('#annuler' + id).trigger('click');
+                    // $('#text' + id).val('');
+                    $('#ajouter' + id).html("<i class='fa fa-check'></i> {{ "Valider"|trans }}");
+
+                } else {
+                    $('#numerolot'+id).html(" <tr><td colspan='4'>{{ 'Produit en rupture'|trans }}</td></tr>");
+                    $('#ajouter' + id).html("<i class='fa fa-check'></i> {{ "Valider"|trans }}");
+                    $('#ajouter' + id).addClass('disabled');
                 }
             },
             error: function () {
-                alert('{{ "La requête n'a pas abouti"|trans }}');
+                alert("{{ "La requête n'a pas abouti"|trans }}");
             }
         });
-    }
-    /*****Fnc ajout produit*******/
-    function ajouter(id) {
-        $("#"+id).html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
+
+
     }
 </script>
 

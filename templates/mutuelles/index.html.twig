@@ -19,7 +19,6 @@
         <table id="liste" class="table table-success-light table-bordered table-hover table-striped text-center">
             <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Adresse</th>
                 <th>Telephone</th>
@@ -30,7 +29,6 @@
             <tbody>
             {% for mutuelle in mutuelles %}
                 <tr>
-                    <td>{{ mutuelle.id }}</td>
                     <td>{{ mutuelle.nom }}</td>
                     <td>{{ mutuelle.adresse }}</td>
                     <td>{{ mutuelle.telephone }}</td>

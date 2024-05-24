@@ -2,9 +2,9 @@
 {% block body %}
     <div class="container fond">
         <div class="col-lg-7 fond-1">
-            {{ form_start(form) }}
-            {{ form_row(form.fournisseur,{ 'attr': {'onchange': 'produits()'}}) }}
-            {{ form_end(form) }}
+{#            {{ form_start(form) }}#}
+{#            {{ form_row(form.fournisseur,{ 'attr': {'onchange': 'produits()'}}) }}#}
+{#            {{ form_end(form) }}#}
         </div>
         <div class="row">
             <div class="col-lg-6 fond">
@@ -20,9 +20,41 @@
                         <th>{{ 'Action'|trans }}</th>
                     </tr>
                     </thead>
-                    <tbody id="produits">
+                    <tbody>
+                    {% for produit in produits %}
+                    <tr>
+                        <td>{{ produit.reference }}</td>
+                        <td>{{ produit.designation }}</td>
+                        <td>
+                            <!-- Button trigger modal -->
+                            <button type="button" id="btn{{ produit.id }}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ produit.id }}">
+                                +
+                            </button>
 
+                            <!-- Modal -->
+                            <div class="modal fade" id="{{ produit.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{ produit.designation }}</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
 
+                                            <input type='number' id="text{{ produit.id }}" placeholder="{{ 'Renseignez la Quantite'|trans }}" class='form-control mt-4'>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id='annuler{{ produit.id }}'>Close</button>
+                                            <button type="button"  id='sub{{ produit.id }}' class="btn btn-primary" onclick='ajouter({{ produit.id }})'>{{ 'Ajouter'|trans }}</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -37,21 +69,14 @@
                         <th>Référence</th>
                         <th>Désignation</th>
                         <th>Quantité</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="commander">
 
-                    <tr class="text-end">
-                        <td colspan="4">
-                            <button class="btn btn-success">Valider</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7">no records found</td>
-                    </tr>
                     </tbody>
                 </table>
-
+                <a href="{{ path('app_commande_valider') }}" class="btn btn-success {% if  commande|length == 0 %}disabled{% endif %}" id="valider" >Valider</a>
             </div>
         </div>
     </div>

@@ -37,15 +37,16 @@ class Fournisseur
     private Collection $produits;
 
     /**
-     * @var Collection<int, Commande>
+     * @var Collection<int, CommandeProduit>
      */
-    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'Fournisseur')]
-    private Collection $commandes;
+    #[ORM\OneToMany(targetEntity: CommandeProduit::class, mappedBy: 'fournisseur')]
+    private Collection $fournisseur;
+
 
     public function __construct()
     {
         $this->produits = new ArrayCollection();
-        $this->commandes = new ArrayCollection();
+        $this->fournisseur = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,29 +142,29 @@ class Fournisseur
     }
 
     /**
-     * @return Collection<int, Commande>
+     * @return Collection<int, CommandeProduit>
      */
-    public function getCommandes(): Collection
+    public function getFournisseur(): Collection
     {
-        return $this->commandes;
+        return $this->fournisseur;
     }
 
-    public function addCommande(Commande $commande): static
+    public function addFournisseur(CommandeProduit $fournisseur): static
     {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes->add($commande);
-            $commande->setFournisseur($this);
+        if (!$this->fournisseur->contains($fournisseur)) {
+            $this->fournisseur->add($fournisseur);
+            $fournisseur->setFournisseur($this);
         }
 
         return $this;
     }
 
-    public function removeCommande(Commande $commande): static
+    public function removeFournisseur(CommandeProduit $fournisseur): static
     {
-        if ($this->commandes->removeElement($commande)) {
+        if ($this->fournisseur->removeElement($fournisseur)) {
             // set the owning side to null (unless already changed)
-            if ($commande->getFournisseur() === $this) {
-                $commande->setFournisseur(null);
+            if ($fournisseur->getFournisseur() === $this) {
+                $fournisseur->setFournisseur(null);
             }
         }
 

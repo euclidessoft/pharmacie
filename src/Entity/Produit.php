@@ -53,10 +53,16 @@ class Produit
     private Collection $Fournisseur;
 
     /**
-     * @var Collection<int, Detailcommande>
+     * @var Collection<int, Commande>
      */
-    #[ORM\OneToMany(targetEntity: Detailcommande::class, mappedBy: 'relation')]
-    private Collection $detailcommandes;
+    #[ORM\ManyToMany(targetEntity: Commande::class, mappedBy: 'Produits')]
+    private Collection $commandes;
+
+    /**
+     * @var Collection<int, CommandeProduit>
+     */
+    #[ORM\OneToMany(targetEntity: CommandeProduit::class, mappedBy: 'Produit')]
+    private Collection $produit;
 
     public function __construct()
     {
@@ -64,6 +70,8 @@ class Produit
         $this->tva = false;
         $this->Fournisseur = new ArrayCollection();
         $this->detailcommandes = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
+        $this->produit = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -218,29 +226,56 @@ class Produit
 
 
     /**
-     * @return Collection<int, Detailcommande>
+     * @return Collection<int, Commande>
      */
-    public function getDetailcommandes(): Collection
+    public function getCommandes(): Collection
     {
-        return $this->detailcommandes;
+        return $this->commandes;
     }
 
-    public function addDetailcommande(Detailcommande $detailcommande): static
+    public function addCommande(Commande $commande): static
     {
-        if (!$this->detailcommandes->contains($detailcommande)) {
-            $this->detailcommandes->add($detailcommande);
-            $detailcommande->setRelation($this);
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->addProduit($this);
         }
 
         return $this;
     }
 
-    public function removeDetailcommande(Detailcommande $detailcommande): static
+    public function removeCommande(Commande $commande): static
     {
-        if ($this->detailcommandes->removeElement($detailcommande)) {
+        if ($this->commandes->removeElement($commande)) {
+            $commande->removeProduit($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommandeProduit>
+     */
+    public function getProduit(): Collection
+    {
+        return $this->produit;
+    }
+
+    public function addProduit(CommandeProduit $produit): static
+    {
+        if (!$this->produit->contains($produit)) {
+            $this->produit->add($produit);
+            $produit->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(CommandeProduit $produit): static
+    {
+        if ($this->produit->removeElement($produit)) {
             // set the owning side to null (unless already changed)
-            if ($detailcommande->getRelation() === $this) {
-                $detailcommande->setRelation(null);
+            if ($produit->getProduit() === $this) {
+                $produit->setProduit(null);
             }
         }
 

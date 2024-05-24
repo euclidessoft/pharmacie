@@ -19,18 +19,21 @@ class Commande
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'commandes')]
+
     private ?Fournisseur $Fournisseur = null;
 
     /**
-     * @var Collection<int, Detailcommande>
+     * @var Collection<int, CommandeProduit>
      */
-    #[ORM\OneToMany(targetEntity: Detailcommande::class, mappedBy: 'Commande')]
-    private Collection $detailcommandes;
+    #[ORM\OneToMany(targetEntity: CommandeProduit::class, mappedBy: 'commande')]
+    private Collection $commande;
+
+
 
     public function __construct()
     {
-        $this->detailcommandes = new ArrayCollection();
+        $this->date = new \DateTime();
+        $this->commande = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,29 +66,29 @@ class Commande
     }
 
     /**
-     * @return Collection<int, Detailcommande>
+     * @return Collection<int, CommandeProduit>
      */
-    public function getDetailcommandes(): Collection
+    public function getCommande(): Collection
     {
-        return $this->detailcommandes;
+        return $this->commande;
     }
 
-    public function addDetailcommande(Detailcommande $detailcommande): static
+    public function addCommande(CommandeProduit $commande): static
     {
-        if (!$this->detailcommandes->contains($detailcommande)) {
-            $this->detailcommandes->add($detailcommande);
-            $detailcommande->setCommande($this);
+        if (!$this->commande->contains($commande)) {
+            $this->commande->add($commande);
+            $commande->setCommande($this);
         }
 
         return $this;
     }
 
-    public function removeDetailcommande(Detailcommande $detailcommande): static
+    public function removeCommande(CommandeProduit $commande): static
     {
-        if ($this->detailcommandes->removeElement($detailcommande)) {
+        if ($this->commande->removeElement($commande)) {
             // set the owning side to null (unless already changed)
-            if ($detailcommande->getCommande() === $this) {
-                $detailcommande->setCommande(null);
+            if ($commande->getCommande() === $this) {
+                $commande->setCommande(null);
             }
         }
 
