@@ -64,6 +64,12 @@ class Produit
     #[ORM\OneToMany(targetEntity: CommandeProduit::class, mappedBy: 'Produit')]
     private Collection $produit;
 
+    /**
+     * @var Collection<int, VenteProduit>
+     */
+    #[ORM\OneToMany(targetEntity: VenteProduit::class, mappedBy: 'produit')]
+    private Collection $venteProduits;
+
     public function __construct()
     {
         $this->stock = 0;
@@ -72,6 +78,7 @@ class Produit
         $this->detailcommandes = new ArrayCollection();
         $this->commandes = new ArrayCollection();
         $this->produit = new ArrayCollection();
+        $this->venteProduits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -276,6 +283,36 @@ class Produit
             // set the owning side to null (unless already changed)
             if ($produit->getProduit() === $this) {
                 $produit->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VenteProduit>
+     */
+    public function getVenteProduits(): Collection
+    {
+        return $this->venteProduits;
+    }
+
+    public function addVenteProduit(VenteProduit $venteProduit): static
+    {
+        if (!$this->venteProduits->contains($venteProduit)) {
+            $this->venteProduits->add($venteProduit);
+            $venteProduit->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVenteProduit(VenteProduit $venteProduit): static
+    {
+        if ($this->venteProduits->removeElement($venteProduit)) {
+            // set the owning side to null (unless already changed)
+            if ($venteProduit->getProduit() === $this) {
+                $venteProduit->setProduit(null);
             }
         }
 

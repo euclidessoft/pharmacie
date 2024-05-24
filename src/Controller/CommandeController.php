@@ -198,18 +198,21 @@ class CommandeController extends AbstractController
             $produit = $produitRepository->find($id); // recuperation de id produit dans la db
 //            if (empty($approv[$id])) {//verification existance produit dans le panier
 
-            $chaine = $id."/".$quantite;
+            $chaine = $id."/".$quantite."/".$produit->getPrix();
 
             $commande[] = $chaine;
 
             // On sauvegarde dans la session
             $session->set("commande", $commande);
+            $session->set("total", $session->get('total') +($quantite * $produit->getPrix())); //calcule pour la vente
 
             //preparation valeur de retour ajax
             $res['id'] = 'ok';
             $res['ref'] = $produit->getReference();
+            $res['prix'] = $produit->getPrix();
             $res['designation'] = $produit->getDesignation();
             $res['quantite'] = $quantite;//$produit->getQuantite();
+            $res['total'] = $session->get('total');
 
             suite:
             $response = new Response();
@@ -233,6 +236,7 @@ class CommandeController extends AbstractController
             $ligne = explode("/",$item);
             if ($ligne[0] == $id) {
                 unset($commande[$key]);
+                $session->set("total", $session->get('total') - ($ligne[1] * $ligne[2]));// suppression a la vente
             }
         }
 
@@ -240,8 +244,10 @@ class CommandeController extends AbstractController
         $session->set("commande", $commande);
 
 
+
         $res['id'] = 'ok';
         $res['nb'] = count($commande);
+        $res['total'] = $session->get('total');// total facture
         $response = new Response();
         $response->headers->set('content-type', 'application/json');
         $re = json_encode($res);

@@ -235,7 +235,7 @@
                             <ul class="submenu-list list-unstyled">
 
                                 <li class="submenu-item">
-                                    <a class="submenu-link" href="account.html">Facturation</a>
+                                    <a class="submenu-link" href="{{ path('app_vente_new') }}">Facturation</a>
                                 </li>
                                 <li class="submenu-item">
                                     <a class="submenu-link" href="account.html">Cloture</a>
@@ -742,6 +742,7 @@
                         $("#text" + produit).val('');// vider le champ quantite dans modal ajouter
                         $("#ajouter" + produit).show();// afficher le bouton ajouter
                         $("#ajouter" + produit).html("<i class=\"fa fa-plus\"></i> {{ 'Ajouter'|trans }}");// afficher le bouton ajouter
+                        $("#total").html(data['total']);// total pour la facturation
 
 
                         if (data['nb'] == 0) {
@@ -805,6 +806,58 @@
         });
 
 
+    }
+
+    function ajouter_vente(produit) {
+
+        var quant = $("#text" + produit);
+        // var peremp = new Date($("#peremp" + produit).val());
+        if(quant.val() != ""){
+            if (quant.val() > 0) {
+                $("#sub"+produit).html("<i class='fa-solid fa-spinner fa-spin-pulse fa-lg'></i>");
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('commande_produit_add') }}",
+                    data: { produit : produit , quantite : quant.val() },
+                    success: function (data) {
+                        if (data['id'] == 'ok') {
+                            var tot = Number(data['prix']) * Number(data['quantite']);
+                            $('#commander').append(" <tr id='tr" + produit + "'>\n" +
+                                "                        <td>" + data['designation'] + "</td>\n" +
+                                "                        <td>" + data['quantite'] + "</td>\n" +
+                                "                        <td class='text-center'>" + data['prix'] + "</td>\n" +
+                                "                        <td class='text-center'>" + tot + "</td>\n" +
+                                "                        <td> <button class='btn btn-danger mr-2 mb-2'\n" +
+                                "                                   title=\"{{ 'Supprimer le produit'|trans}}\" onclick='supprim(" + produit + ")'>\n" +
+                                "                                    <i class='fa fa-trash'></i>\n" +
+                                "                                </button></td></tr>");
+                            $("#total").html(data['total']);
+
+                            $("#annuler" + produit).trigger('click');
+                            quant.val("");
+                            $("#sub"+produit).html("{{ 'Ajouter'|trans }}");
+                            $("#btn"+produit).addClass('disabled');
+                            $('#valider').removeClass('disabled');
+                        } else {
+                            $("#annuler" + produit).trigger('click');
+                            quant.val("");
+                            $("#sub"+produit).html("{{ 'Ajouter'|trans }}");
+                            $("#btn"+produit).addClass('disabled');
+                            alert(data['id'])
+                        }
+                    },
+                    error: function () {
+                        alert("{{ 'La requête n’a pas abouti'|trans }}");
+                    }
+                });
+            } else {
+                alert("{{'Veillez bien renseigner la quantité'|trans}}");
+            }
+        }
+        else{
+            $("#sub"+produit).html("{{ 'Ajouter'|trans }}");
+            alert("{{ 'Veillez bien renseigner la quantite'|trans }}");
+        }
     }
 </script>
 

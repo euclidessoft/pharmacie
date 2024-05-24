@@ -1,11 +1,95 @@
-<!DOCTYPE html>
-
-<title>New Vente</title>
-
+{% extends 'layout.html.twig' %}
 {% block body %}
-    <h1>Create new Vente</h1>
+<div class="container fond">
+    <div class="row">
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-danger alert-dismissible fade show radius-10 shadow-black">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;
+                </button>
+                {{ message|trans }}
+            </div>
+        {% endfor %}
+        <div class="col-lg-6">
+            <div class="fond">
+                <h3 class="mt-4 mb-5 text-bold">
+                    <i class="fab fa-product-hunt mr-2"></i>
+                    {{ "Liste de produits"|trans }}
+                </h3>
 
-    {{ include('vente/_form.html.twig') }}
+                <table class="table table-success-light table-bordered table-hover table-striped" id="liste">
+                    <thead>
+                    <tr>
+                        <th>{{ 'Référence'|trans }}</th>
+                        <th>{{ 'Désignation'|trans }}</th>
+                        <th>{{ 'Action'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for produit in produits %}
+                        <tr>
+                            <td>{{ produit.reference }}</td>
+                            <td>{{ produit.designation }}</td>
+                            <td>
+                                <!-- Button trigger modal -->
+                                <button type="button" id="btn{{ produit.id }}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ produit.id }}">
+                                    +
+                                </button>
 
-    <a href="{{ path('app_vente_index') }}">back to list</a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="{{ produit.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ produit.designation }}</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <input type='number' id="text{{ produit.id }}" placeholder="{{ 'Renseignez la Quantite'|trans }}" class='form-control mt-4'>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id='annuler{{ produit.id }}'>Close</button>
+                                                <button type="button"  id='sub{{ produit.id }}' class="btn btn-primary" onclick='ajouter_vente({{ produit.id }})'>{{ 'Ajouter'|trans }}</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="fond">
+                <table class="table table-success-light table-bordered table-hover table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th>Désignation</th>
+                        <th>Quantité</th>
+                        <th>Prix</th>
+                        <th>Total</th>
+                        <th>Sup</th>
+                    </tr>
+                    </thead>
+                    <tbody id="commander">
+
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th colspan="3">Total</th>
+                        <th id="total" colspan="2">0</th>
+                    </tr>
+                    </tfoot>
+                </table>
+                <a href="{{ path('app_vente_valider') }}" class="btn btn-success {% if  commande|length == 0 %}disabled{% endif %}" id="valider" >Valider</a>
+
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
