@@ -1,15 +1,17 @@
 {% extends 'layout.html.twig' %}
+{% block start %} onkeyup="entrer()" {% endblock %}
 {% block body %}
-<div class="container fond">
+<div class="container-fluid fond">
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                &times;
+            </button>
+            {{ message|trans }}
+        </div>
+    {% endfor %}
     <div class="row">
-        {% for message in app.flashes('notice') %}
-            <div class="alert alert-danger alert-dismissible fade show radius-10 shadow-black">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                    &times;
-                </button>
-                {{ message|trans }}
-            </div>
-        {% endfor %}
+
         <div class="col-lg-6">
             <div class="fond">
                 <h3 class="mt-4 mb-5 text-bold">
@@ -17,45 +19,52 @@
                     {{ "Liste de produits"|trans }}
                 </h3>
 
-                <table class="table table-success-light table-bordered table-hover table-striped" id="liste">
+                <table class="table table-success-light table-bordered table-hover table-striped text-center" id="liste">
                     <thead>
                     <tr>
-                        <th>{{ 'Référence'|trans }}</th>
-                        <th>{{ 'Désignation'|trans }}</th>
+                        <th class="text-start">{{ 'Désignation'|trans }}</th>
+                        <th>{{ 'Prix'|trans }}</th>
+                        <th>{{ 'Quantite'|trans }}</th>
                         <th>{{ 'Action'|trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for produit in produits %}
                         <tr>
-                            <td>{{ produit.reference }}</td>
-                            <td>{{ produit.designation }}</td>
+                            <td class="text-start">{{ produit.designation }}</td>
+                            <td>{{ produit.Prix }}</td>
+                            <td id="td{{ produit.id }}">
+                                <input type="number" id="text{{ produit.id }}" class="form-control" onfocus="focu({{ produit.id }})" onblur="nofocu()" style="width:100px">
+                            </td>
                             <td>
                                 <!-- Button trigger modal -->
-                                <button type="button" id="btn{{ produit.id }}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ produit.id }}">
+                                <button type="button" id="btn{{ produit.id }}" class="btn btn-primary" onclick="ajouter_vente({{ produit.id }})">
                                     +
                                 </button>
+{#            <button type="button" id="btn{{ produit.id }}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ produit.id }}">#}
+{#                                    +#}
+{#                                </button>#}
 
                                 <!-- Modal -->
-                                <div class="modal fade" id="{{ produit.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ produit.designation }}</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
+{#                                <div class="modal fade" id="{{ produit.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">#}
+{#                                    <div class="modal-dialog">#}
+{#                                        <div class="modal-content">#}
+{#                                            <div class="modal-header">#}
+{#                                                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ produit.designation }}</h1>#}
+{#                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
+{#                                            </div>#}
+{#                                            <div class="modal-body">#}
 
-                                                <input type='number' id="text{{ produit.id }}" placeholder="{{ 'Renseignez la Quantite'|trans }}" class='form-control mt-4'>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id='annuler{{ produit.id }}'>Close</button>
-                                                <button type="button"  id='sub{{ produit.id }}' class="btn btn-primary" onclick='ajouter_vente({{ produit.id }})'>{{ 'Ajouter'|trans }}</button>
+{#                                                <input type='number' id="text{{ produit.id }}" placeholder="{{ 'Renseignez la Quantite'|trans }}" class='form-control mt-4'>#}
+{#                                            </div>#}
+{#                                            <div class="modal-footer">#}
+{#                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id='annuler{{ produit.id }}'>Close</button>#}
+{#                                                <button type="button"  id='sub{{ produit.id }}' class="btn btn-primary" onclick='ajouter_vente({{ produit.id }})'>{{ 'Ajouter'|trans }}</button>#}
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
                             </td>
                         </tr>
                     {% else %}
@@ -65,7 +74,11 @@
             </div>
         </div>
         <div class="col-6">
-            <div class="fond">
+            <div class="fond text-end">
+                <h3 class="mt-4 mb-5 text-bold text-start">
+                    <i class="fa fa-money-bill mr-2"></i>
+                    {{ "Facturation"|trans }}
+                </h3>
                 <table class="table table-success-light table-bordered table-hover table-striped text-center">
                     <thead>
                     <tr>

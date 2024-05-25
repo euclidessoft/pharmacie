@@ -19,7 +19,7 @@
     <link id="theme-style" rel="stylesheet" href="{{ asset('assets/css/portal.css') }}">
 </head>
 
-<body class="app">
+<body class="app"{% block start %} {% endblock %}>
 <header class="app-header fixed-top">
     <div class="app-header-inner">
         <div class="container-fluid py-2">
@@ -523,7 +523,7 @@
 <div class="app-wrapper">
 
     <div class="app-content pt-3 p-md-3 p-lg-4">
-        <div class="container-xl">
+        <div class="container-fluid">
             {% block body %}
             {% endblock %}
         </div><!--//container-fluid-->
@@ -534,6 +534,7 @@
             <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
             <small class="copyright">Designed by
                 <a class="app-link" href="https://euclideservices.com/" target="_blank">Euclides</a></small>
+            <input type="hidden" id="tampon"/>
 
         </div>
     </footer><!--//app-footer-->
@@ -743,6 +744,7 @@
                         $("#ajouter" + produit).show();// afficher le bouton ajouter
                         $("#ajouter" + produit).html("<i class=\"fa fa-plus\"></i> {{ 'Ajouter'|trans }}");// afficher le bouton ajouter
                         $("#total").html(data['total']);// total pour la facturation
+                        $("#td"+produit).html("<input type='number' id='text"+ produit+"' class='form-control' onfocus='focu("+produit+")' onblur='nofocu()' style='width:100px'>");// total pour la facturation
 
 
                         if (data['nb'] == 0) {
@@ -832,6 +834,7 @@
                                 "                                    <i class='fa fa-trash'></i>\n" +
                                 "                                </button></td></tr>");
                             $("#total").html(data['total']);
+                            $("#td"+produit).html(data['quantite']);
 
                             $("#annuler" + produit).trigger('click');
                             quant.val("");
@@ -859,6 +862,29 @@
             alert("{{ 'Veillez bien renseigner la quantite'|trans }}");
         }
     }
+
+    //hebergement
+    function focu(id) {
+        $('#tampon').val(id);
+    }
+
+    //hebergement
+    function nofocu(id) {
+        $('#tampon').val('');
+    }
+
+    //fonction appuie sur le bouton entrer
+    function entrer() {
+        var reg = new RegExp("^[0-9]+$");
+        var id = $('#tampon').val();
+        var quantite = $('#text'+id).val();
+        if (reg.test(quantite) && window.event.keyCode == 13) {
+            ajouter_vente(id);
+
+        } //else alert("{{'invalide'|trans }}");
+
+    }
+
 </script>
 
 </body>
