@@ -3,11 +3,9 @@
 {% block body %}
 <div class="container-fluid fond">
     {% for message in app.flashes('notice') %}
-        <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                &times;
-            </button>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ message|trans }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endfor %}
     <div class="row">
@@ -74,10 +72,11 @@
             </div>
         </div>
         <div class="col-6">
+
             <div class="fond text-end">
                 <h3 class="mt-4 mb-5 text-bold text-start">
                     <i class="fa fa-money-bill mr-2"></i>
-                    {{ "Facturation"|trans }}
+                    {{ "Vente"|trans }}
                 </h3>
                 <table class="table table-success-light table-bordered table-hover table-striped text-center">
                     <thead>
@@ -99,8 +98,23 @@
                     </tr>
                     </tfoot>
                 </table>
-                <a href="{{ path('app_vente_valider') }}" class="btn btn-success {% if  commande|length == 0 %}disabled{% endif %}" id="valider" >Valider</a>
 
+            </div>
+            <div class="fond mt-4">
+                <h3 class="mt-2 mb-2 text-bold text-start">
+                    <i class="fa fa-user-doctor mr-2"></i>
+                    {{ "Medecin prescripteur"|trans }}
+                </h3>
+                {{ include('vente/_form.html.twig') }}
+            </div>
+            <div class="col-md-4 pt-3 mt-4 fond-btn">
+                <div class="text-center">
+                    {#                <div class="row">#}
+                    <button type="button" onclick="load_btn('valider')" class="btn btn-success mb-3 mr-3 {% if  commande|length == 0 %}disabled{% endif %}" id="valider" >Valider</button>
+
+
+                </div>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>

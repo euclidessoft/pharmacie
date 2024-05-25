@@ -29,12 +29,62 @@ class VenteController extends AbstractController
     #[Route('/new', name: 'app_vente_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProduitRepository $produitRepository, EntityManagerInterface $entityManager,SessionInterface $session): Response
     {
-        $session->remove("commande");
-        $session->remove("total");
+
+        $vente = new Vente();
+        $form = $this->createForm(VenteType::class, $vente);
+        $form->handleRequest($request);
+        if (!$form->isSubmitted()){
+            $session->remove("commande");
+            $session->remove("total");
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commandesession = $session->get("commande", []);
+
+            $entityManager->persist($vente);
+            if (count($commandesession) >= 1) {
+
+
+                $i = 1;
+                foreach ($commandesession as $ligne) {
+                    $product = explode("/",$ligne);
+                    $id = $product[0];
+                    $quantite= $product[1];
+                    $produit = $produitRepository->find($id);
+                    $venteProduit = new VenteProduit();
+                    $venteProduit->setVente($vente);
+                    $venteProduit->setProduit($produit);
+                    $venteProduit->setQuantite($quantite);
+                    $entityManager->persist($venteProduit);
+                    $entityManager->flush();
+                }
+                $entityManager->flush();
+                $session->remove("commande");
+            }
+
+            $entityManager->flush();
+
+
+            $this->addFlash('notice', 'Vente effectue avec succes');
+            $response = $this->redirectToRoute('app_vente_new');
+            $response->setSharedMaxAge(0);
+            $response->headers->addCacheControlDirective('no-cache', true);
+            $response->headers->addCacheControlDirective('no-store', true);
+            $response->headers->addCacheControlDirective('must-revalidate', true);
+            $response->setCache([
+                'max_age' => 0,
+                'private' => true,
+            ]);
+            return $response;
+
+
+
+        }
 
         return $this->render('vente/new.html.twig', [
             'produits' => $produitRepository->findAll(),
             'commande' => $session->get('commande', []),
+            'form' => $form,
         ]);
     }
 

@@ -25,6 +25,9 @@ class Vente
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ventes')]
+    private ?Medecin $medecin = null;
+
     public function __construct()
     {
         $this->venteProduits = new ArrayCollection();
@@ -74,6 +77,18 @@ class Vente
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getMedecin(): ?Medecin
+    {
+        return $this->medecin;
+    }
+
+    public function setMedecin(?Medecin $medecin): static
+    {
+        $this->medecin = $medecin;
 
         return $this;
     }
